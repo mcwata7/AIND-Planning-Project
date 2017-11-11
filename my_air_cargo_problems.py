@@ -15,7 +15,7 @@ from functools import lru_cache
 class AirCargoProblem(Problem):
     def __init__(self, cargos, planes, airports, initial: FluentState, goal: list):
         """
-
+test
         :param cargos: list of str
             cargos in the problem
         :param planes: list of str
