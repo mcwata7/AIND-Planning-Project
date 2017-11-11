@@ -64,7 +64,7 @@ test
             for c in self.cargos:
                 for p in self.planes:
                     for a in self.airports:
-                        precond_pos = [expr("At({},{})".format(c,a)),expr("At({},{})".format(p,a)),]
+                        precond_pos = [expr("At({},{})".format(c,a)),expr("At({},{})".format(p,a)),expr('Cargo({})'.format(c)),expr('Plane({})'.format(p)),expr('Airport({})'.format(a))]
                         precond_neg = []
                         effect_add = [expr("At({},{})".format(c,p))]
                         effect_rem = [expr("At({},{})".format(c,a))]
@@ -84,7 +84,7 @@ test
             for c in self.cargos:
                 for p in self.planes:
                     for a in self.airports:
-                        precond_pos = [expr("In({},{})".format(c,p)),expr("At({},{})".format(p,a)),]
+                        precond_pos = [expr("In({},{})".format(c,p)),expr("At({},{})".format(p,a)),expr('Cargo({})'.format(c)),expr('Plane({})'.format(p)),expr('Airport({})'.format(a))]
                         precond_neg = []
                         effect_add = [expr("At({},{})".format(c,a))]
                         effect_rem = [expr("At({},{})".format(c,p))]
@@ -104,8 +104,7 @@ test
                 for to in self.airports:
                     if fr != to:
                         for p in self.planes:
-                            precond_pos = [expr("At({}, {})".format(p, fr)),
-                                           ]
+                            precond_pos = [expr("At({}, {})".format(p, fr)),expr('Plane({})'.format(p)),expr('Airport({})'.format(fr)),expr('Airport({})'.format(to))]
                             precond_neg = []
                             effect_add = [expr("At({}, {})".format(p, to))]
                             effect_rem = [expr("At({}, {})".format(p, fr))]
@@ -127,6 +126,10 @@ test
         """
         # TODO implement
         possible_actions = []
+        fs = decode_state(state,self.state_map)
+        actions = get_actions()
+       
+        #find where actions and fs overlap??
         return possible_actions
 
     def result(self, state: str, action: Action):
