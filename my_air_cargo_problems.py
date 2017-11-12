@@ -66,8 +66,8 @@ class AirCargoProblem(Problem):
                         precond_pos = [expr("At({},{})".format(c,a)),
                                        expr("At({},{})".format(p,a)),
                                       ]
-                        precond_neg = [expr("In({},{})".format(c,p))]
-                        effect_add = [expr("At({},{})".format(c,p))]
+                        precond_neg = []
+                        effect_add = [expr("In({},{})".format(c,p))]
                         effect_rem = [expr("At({},{})".format(c,a))]
                         load = Action(expr("Load({},{},{})".format(c,p,a)),
                                       [precond_pos,precond_neg],
@@ -88,9 +88,9 @@ class AirCargoProblem(Problem):
                         precond_pos = [expr("In({},{})".format(c,p)),
                                        expr("At({},{})".format(p,a)),
                                       ]
-                        precond_neg = [expr("At({},{})".format(c,a))]
+                        precond_neg = []
                         effect_add = [expr("At({},{})".format(c,a))]
-                        effect_rem = [expr("At({},{})".format(c,p))]
+                        effect_rem = [expr("In({},{})".format(c,p))]
                         unload = Action(expr("Unload({},{},{})".format(c,p,a)),
                                       [precond_pos,precond_neg],
                                       [effect_add,effect_rem])
@@ -132,7 +132,7 @@ class AirCargoProblem(Problem):
         possible_actions = []
         kb = PropKB()
         kb.tell(decode_state(state,self.state_map).pos_sentence())
-        for actions in self.actions_list():
+        for action in self.actions_list:
             is_possible = True
             for clause in action.precond_pos:
                 if clause not in kb.clauses:
@@ -209,6 +209,23 @@ class AirCargoProblem(Problem):
         """
         # TODO implement (see Russell-Norvig Ed-3 10.2.3  or Russell-Norvig Ed-2 11.2)
         count = 0
+        kb = PropKB()
+        kb.tell(decode_state(node.state, self.state_map).pos_sentence())
+        """effect_list = []
+        for action in self.actions_list:
+            for fl in action.effect_add:
+                if fl not in effect_list:
+                    print(action)
+        """            
+        for fluent in self.goal:
+            if fluent not in kb.clauses: 
+            #and fluent in effect_list:
+                count += 1
+        """unsat_goals = [g for g in self.goal]
+        
+            if fluent not in self.state_map.pos
+        """
+        #print(self.actions_list)
         return count
 
 
@@ -282,7 +299,7 @@ def air_cargo_p2() -> AirCargoProblem:
 
 def air_cargo_p3() -> AirCargoProblem:
     # TODO implement Problem 3 definition
-    pas    cargos = ['C1','C2','C3','C4']
+    cargos = ['C1','C2','C3','C4']
     planes = ['P1','P2']
     airports = ['JFK', 'SFO','ATL','ORD']
     pos = [expr('At(C1,SFO)'),
