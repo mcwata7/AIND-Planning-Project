@@ -411,14 +411,18 @@ class PlanningGraph():
         :param node_a2: PgNode_a
         :return: bool
         """
-        # TODO test for Inconsistent Effects between nodes
-        for effect in node_a1.action.effect_add:
-            if effect in node_a2.action.effect_rem:
-                return True
-        for effect in node_a1.action.effect_rem:
-            if effect in node_a2.action.effect_add:
-                return True
-        return False
+        # TODO test for Inconsistent Effects between nodes --DONE
+        
+        return bool((set(node_a1.action.effect_add) & set(node_a2.action.effect_rem)) or 
+    (set(node_a1.action.effect_add) & set(node_a2.action.effect_rem)))
+        
+        #for effect in node_a1.action.effect_add:
+        #    if effect in node_a2.action.effect_rem:
+        #        return True
+        #for effect in node_a1.action.effect_rem:
+        #    if effect in node_a2.action.effect_add:
+        #        return True
+        #return False
 
     def interference_mutex(self, node_a1: PgNode_a, node_a2: PgNode_a) -> bool:
         """
@@ -434,19 +438,24 @@ class PlanningGraph():
         :param node_a2: PgNode_a
         :return: bool
         """
-        # TODO test for Interference between nodes
-        for effect in node_a1.action.effect_add:
-            if effect in node_a2.action.precond_neg:
-                return True
-        for effect in node_a1.action.effect_rem:
-            if effect in node_a2.action.precond_pos:
-                return True
-        for precond in node_a1.action.precond_pos:
-            if precond in node_a2.action.effect_rem:
-                return True
-        for precond in node_a1.action.precond_neg:
-            if precond in node_a2.action.effect_add:
-                return True
+        # TODO test for Interference between nodes --DONE
+        return bool((set(node_a1.action.effect_add) & set(node_a2.action.precond_neg)) or
+    (set(node_a1.action.effect_rem) & set(node_a2.action.precond_pos)) or
+    (set(node_a1.action.precond_pos) & set(node_a2.action.effect_rem)) or
+    (set(node_a1.action.precond_neg) & set(node_a2.action.effect_add)))
+        
+        #for effect in node_a1.action.effect_add:
+        #    if effect in node_a2.action.precond_neg:
+        #        return True
+        #for effect in node_a1.action.effect_rem:
+        #    if effect in node_a2.action.precond_pos:
+        #        return True
+        #for precond in node_a1.action.precond_pos:
+        #    if precond in node_a2.action.effect_rem:
+        #        return True
+        #for precond in node_a1.action.precond_neg:
+        #    if precond in node_a2.action.effect_add:
+        #        return True
             
         return False
         
