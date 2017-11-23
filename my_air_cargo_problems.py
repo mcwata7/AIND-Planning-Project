@@ -211,21 +211,22 @@ class AirCargoProblem(Problem):
         count = 0
         kb = PropKB()
         kb.tell(decode_state(node.state, self.state_map).pos_sentence())
-        """effect_list = []
-        for action in self.actions_list:
-            for fl in action.effect_add:
-                if fl not in effect_list:
-                    print(action)
-        """            
-        for fluent in self.goal:
-            if fluent not in kb.clauses: 
-            #and fluent in effect_list:
-                count += 1
-        """unsat_goals = [g for g in self.goal]
         
-            if fluent not in self.state_map.pos
-        """
+        #effect_list = []
+        #for action in self.actions_list:
+        #    for fl in action.effect_add:
+        #        if fl not in effect_list:
+        #            print(action)            
+        #for fluent in self.goal:
+            #if fluent not in kb.clauses: 
+            #and fluent in effect_list:
+                #count += 1
+        #unsat_goals = [g for g in self.goal]
+        #    if fluent not in self.state_map.pos
         #print(self.actions_list)
+        
+        count = len([clause for clause in self.goal if clause not in kb.clauses])
+        
         return count
 
 
